@@ -34,29 +34,15 @@ export function HeroFolderStack() {
               Every coding agent.
             </h1>
             <p className="hero__sub hero-load-2">
-              Browse a curated open-source library of AI Skills and Subagents, and import them directly into your coding agent with a single command.
+              Curated open-source Skills and Subagents, imported directly into your coding agent with a single command.
             </p>
           </div>
           <div className="hero__action-col">
             <div className="hero__cmd-box hero-load-2" data-ui>
               <code id="hero-command">npx skillops-cli@latest add</code>
               <button type="button" className="btn-motif" onClick={handleCopyCommand}>
-                {copied ? "Copied!" : "Copy command"}
+                {copied ? "Copied!" : "Copy"}
               </button>
-            </div>
-            <div className="hero__actions-row hero-load-2">
-              <a href="#transpiler" role="button" className="btn-motif">
-                Try live transpiler
-              </a>
-              <a
-                href="https://www.npmjs.com/package/skillops-cli"
-                target="_blank"
-                rel="noopener noreferrer"
-                role="button"
-                className="btn-motif btn-motif--surface"
-              >
-                View on npm
-              </a>
             </div>
           </div>
         </div>
@@ -68,12 +54,9 @@ export function HeroFolderStack() {
               className="folder-band__tab"
               onClick={() => handleSelectIdeFolder("cursor")}
             >
-              Cursor Rules
+              Cursor
             </button>
-            <div className="folder-band__body">
-              <span>Transpiles canonical Markdown into frontmatter-scoped rules for Cursor workspaces.</span>
-              <code>.cursor/rules/skillops-*.mdc</code>
-            </div>
+            <div className="folder-band__body" aria-hidden="true" />
           </div>
 
           <div className="folder-band folder-band--2 hero-load-2">
@@ -84,10 +67,7 @@ export function HeroFolderStack() {
             >
               Claude Code
             </button>
-            <div className="folder-band__body">
-              <span>Splits reusable domain Skills and autonomous Subagents into native Claude folders.</span>
-              <code>.claude/skills/ &amp; .claude/agents/</code>
-            </div>
+            <div className="folder-band__body" aria-hidden="true" />
           </div>
 
           <div className="folder-band folder-band--3 hero-load-3">
@@ -98,10 +78,7 @@ export function HeroFolderStack() {
             >
               GitHub Copilot
             </button>
-            <div className="folder-band__body">
-              <span>Generates path-scoped instructions and custom agent profiles for GitHub Copilot.</span>
-              <code>.github/instructions/*.instructions.md</code>
-            </div>
+            <div className="folder-band__body" aria-hidden="true" />
           </div>
 
           <div className="folder-band folder-band--4 hero-load-3">
@@ -110,12 +87,9 @@ export function HeroFolderStack() {
               className="folder-band__tab"
               onClick={() => handleSelectIdeFolder("antigravity")}
             >
-              Antigravity IDE
+              Antigravity
             </button>
-            <div className="folder-band__body">
-              <span>Writes structured SKILL.md modules and workflow definitions directly into your workspace.</span>
-              <code>.agent/skills/*/SKILL.md</code>
-            </div>
+            <div className="folder-band__body" aria-hidden="true" />
           </div>
 
           <div className="folder-band folder-band--5 hero-load-3">
@@ -124,38 +98,32 @@ export function HeroFolderStack() {
               className="folder-band__tab"
               onClick={() => handleSelectIdeFolder("windsurf")}
             >
-              Interactive CLI
+              SkillOps CLI
             </button>
             <div className="folder-band__body">
               <div className="folder-front__copy">
-                <h2 id="folder-front-title">Curated library. Instant import.</h2>
+                <h2 id="folder-front-title">28 agents. Zero manual setup.</h2>
                 <p id="folder-front-desc">
-                  Pick the Skills and Subagents your project needs from our open-source catalog. SkillOps detects the coding agents in your workspace and imports every module into the native format each agent expects.
+                  Select the modules your project needs and SkillOps writes the native file structure each coding agent expects.
                 </p>
                 <a
-                  href="https://github.com/OdevMatheus/SkillOps"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="#catalog"
                   role="button"
                   className="btn-motif btn-motif--dark"
                 >
-                  Explore skills library
+                  Browse catalog
                 </a>
               </div>
               <div className="folder-front__terminal" data-ui aria-label="SkillOps CLI terminal preview">
                 <pre>
                   <code>{`$ npx skillops-cli@latest add
 
-  [OK] AI IDEs & Agents: 3 selected (cursor, claude, copilot)
-  [OK] Skills & Subagents: 2 selected (mcp-architect, context-scout)
+  [OK] Agents: cursor, claude, copilot
+  [OK] Modules: mcp-architect, context-scout
 
-  Skills & Subagents Installed
-  6 file(s) (6 created)
-
-  * mcp-architect (SKILL)
-    |-- + CREATED  .cursor/rules/skillops-mcp-architect.mdc
-    |-- + CREATED  .claude/skills/mcp-architect/SKILL.md
-    +-- + CREATED  .github/instructions/skillops-mcp-architect.instructions.md`}</code>
+  + CREATED  .cursor/rules/skillops-mcp-architect.mdc
+  + CREATED  .claude/skills/mcp-architect/SKILL.md
+  + CREATED  .github/instructions/skillops-mcp-architect.instructions.md`}</code>
                 </pre>
               </div>
             </div>

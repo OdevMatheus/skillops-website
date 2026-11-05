@@ -240,7 +240,7 @@ samp {
 .hero__cmd-box {
   width: 100%;
   background-color: var(--surface);
-  padding: 18px 22px;
+  padding: 8px 0 8px 22px;
   clip-path: var(--motif-clip);
   display: flex;
   align-items: center;
@@ -251,14 +251,6 @@ samp {
 .hero__cmd-box code {
   color: var(--accent);
   font-size: var(--step-body);
-}
-
-.hero__actions-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  width: 100%;
-  justify-content: flex-end;
 }
 
 /* Stack of 5 file folders */
@@ -272,7 +264,7 @@ samp {
 .folder-band {
   position: relative;
   padding-top: 38px;
-  margin-top: -10px;
+  margin-top: -38px;
   transition: transform 240ms var(--ease-out-expo);
 }
 
@@ -284,7 +276,7 @@ samp {
   position: absolute;
   top: 0;
   height: 38px;
-  min-width: 210px;
+  min-width: 190px;
   padding: 8px 28px 6px 20px;
   font-size: var(--step-body);
   font-weight: 600;
@@ -296,12 +288,8 @@ samp {
 }
 
 .folder-band__body {
-  min-height: 58px;
-  padding: 16px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+  min-height: 48px;
+  padding: 0;
 }
 
 .folder-band--1 .folder-band__tab { left: 0%; background-color: var(--surface); color: var(--ink); }
@@ -320,7 +308,8 @@ samp {
 .folder-band--5 .folder-band__body {
   background-color: var(--accent);
   color: var(--accent-ink);
-  padding: 32px 0 32px 32px;
+  min-height: 0;
+  padding: 36px 0 36px 36px;
   display: grid;
   grid-template-columns: 5fr 7fr;
   gap: 32px;
@@ -1254,10 +1243,8 @@ samp {
   .folder-band--5 .folder-band__tab { left: 40%; }
 
   .folder-band__body {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    padding: 16px;
+    min-height: 44px;
+    padding: 0;
   }
 
   .folder-band--5 .folder-band__body {
