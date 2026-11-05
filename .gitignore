@@ -1,0 +1,13 @@
+node_modules/
+.next/
+out/
+dist/
+build/
+.vercel/
+.taste-skill/
+next-env.d.ts
+*.tsbuildinfo
+.env
+.env.*
+.DS_Store
+Thumbs.db
