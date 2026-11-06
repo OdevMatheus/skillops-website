@@ -293,53 +293,132 @@ samp {
   gap: 12px;
 }
 
-.lang-switcher {
+.lang-select {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px;
-  background-color: var(--surface);
-  clip-path: var(--motif-clip);
-  transition:
-    background-color 320ms var(--ease-out-expo),
-    border-radius 320ms var(--ease-out-expo);
 }
 
-.lang-switcher__btn {
-  border: 0;
-  background: transparent;
-  color: var(--muted);
+.lang-flag {
+  width: 20px;
+  height: 14px;
+  flex-shrink: 0;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+
+.lang-select__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 10px 16px;
+  background-color: var(--surface);
+  color: var(--ink);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   font-size: var(--step-small);
   font-weight: 600;
   letter-spacing: 0.02em;
-  padding: 7px 11px;
   cursor: pointer;
   clip-path: var(--motif-clip);
   transition:
-    background-color 180ms var(--ease-out-expo),
-    color 180ms var(--ease-out-expo),
+    background-color 220ms var(--ease-out-expo),
+    border-color 220ms var(--ease-out-expo),
+    border-radius 320ms var(--ease-out-expo),
     transform 180ms var(--ease-out-expo);
 }
 
-.lang-switcher__btn:hover {
-  color: var(--ink);
+.lang-select__trigger:hover,
+.lang-select__trigger.is-open {
+  background-color: var(--surface-2);
+  border-color: rgba(218, 250, 156, 0.45);
 }
 
-.lang-switcher__btn.is-active {
+.lang-select__code {
+  line-height: 1;
+}
+
+.lang-select__chevron {
+  color: var(--accent);
+  transition: transform 200ms var(--ease-out-expo);
+}
+
+.lang-select__trigger.is-open .lang-select__chevron {
+  transform: rotate(180deg);
+}
+
+.lang-select__menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 215px;
+  padding: 6px;
+  background-color: rgba(22, 22, 26, 0.94);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  box-shadow: 0 20px 44px -10px rgba(0, 0, 0, 0.65);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 120;
+}
+
+.lang-select__option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ink);
+  font-size: var(--step-small);
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 160ms var(--ease-out-expo),
+    color 160ms var(--ease-out-expo);
+}
+
+.lang-select__option:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.lang-select__option.is-active {
   background-color: var(--accent);
   color: var(--accent-ink);
+  font-weight: 600;
 }
 
-.site-header.is-scrolled .lang-switcher {
-  background-color: rgba(255, 255, 255, 0.08);
+.lang-select__name {
+  flex: 1;
+}
+
+.lang-select__badge {
+  font-size: var(--step-small);
+  font-weight: 600;
+  opacity: 0.72;
+}
+
+.lang-select__option.is-active .lang-select__badge {
+  opacity: 1;
+}
+
+.site-header.is-scrolled .lang-select__trigger {
+  min-height: 40px;
+  padding: 7px 14px;
+  background-color: rgba(255, 255, 255, 0.09);
   border-radius: 999px;
   clip-path: none;
 }
 
-.site-header.is-scrolled .lang-switcher__btn {
-  padding: 5px 10px;
-  border-radius: 999px;
-  clip-path: none;
+.site-header.is-scrolled .lang-select__trigger:hover,
+.site-header.is-scrolled .lang-select__trigger.is-open {
+  background-color: rgba(255, 255, 255, 0.16);
 }
 
 .site-header.is-scrolled .site-header__cta .btn-motif {
@@ -2075,14 +2154,15 @@ samp {
     padding: 5px 10px;
   }
 
-  .lang-switcher {
-    padding: 3px;
-    gap: 2px;
+  .lang-select__trigger,
+  .site-header.is-scrolled .lang-select__trigger {
+    min-height: 36px;
+    padding: 6px 11px;
+    gap: 6px;
   }
 
-  .lang-switcher__btn,
-  .site-header.is-scrolled .lang-switcher__btn {
-    padding: 4px 7px;
+  .lang-select__menu {
+    min-width: 196px;
   }
 
   .site-nav__badge {
