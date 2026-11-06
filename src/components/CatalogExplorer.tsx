@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import { CATALOG_ITEMS, type CatalogCategory } from "@/data/skillops-data";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 export function CatalogExplorer() {
   const [category, setCategory] = useState<CatalogCategory>("all");
   const [activeId, setActiveId] = useState<string>(CATALOG_ITEMS[0].id);
   const [isHovering, setIsHovering] = useState(false);
+  const { t } = useLanguage();
 
   const visibleItems = CATALOG_ITEMS.filter(
     (item) => category === "all" || item.category === category
@@ -30,10 +32,10 @@ export function CatalogExplorer() {
         <div className="catalog-agenda__top">
           <div>
             <h2 id="catalog-heading" className="catalog-agenda__title reveal-item">
-              Catalog and runtime targets.
+              {t.catalog.title}
             </h2>
             <p className="catalog-agenda__sub reveal-item">
-              Point at any row in the catalog index to inspect its CLI command and target files in the preview frame, or filter by category on the left.
+              {t.catalog.sub}
             </p>
           </div>
           <a
@@ -43,12 +45,16 @@ export function CatalogExplorer() {
             role="button"
             className="btn-motif btn-motif--dark reveal-item"
           >
-            Browse catalog folder
+            {t.catalog.browseBtn}
           </a>
         </div>
 
         <div className="catalog-agenda__body">
-          <div className="agenda-tabs" role="tablist" aria-label="Catalog categories">
+          <div
+            className="agenda-tabs"
+            role="tablist"
+            aria-label={t.catalog.categoriesAria}
+          >
             <button
               type="button"
               className="agenda-tab reveal-item"
@@ -56,8 +62,8 @@ export function CatalogExplorer() {
               aria-selected={category === "all"}
               onClick={() => handleSelectCategory("all")}
             >
-              <strong>All modules</strong>
-              <span>Skills, Agents &amp; IDEs</span>
+              <strong>{t.catalog.tabs.allTitle}</strong>
+              <span>{t.catalog.tabs.allSub}</span>
             </button>
             <button
               type="button"
@@ -66,8 +72,8 @@ export function CatalogExplorer() {
               aria-selected={category === "skill"}
               onClick={() => handleSelectCategory("skill")}
             >
-              <strong>Catalog Skills</strong>
-              <span>Reusable workflows</span>
+              <strong>{t.catalog.tabs.skillsTitle}</strong>
+              <span>{t.catalog.tabs.skillsSub}</span>
             </button>
             <button
               type="button"
@@ -76,8 +82,8 @@ export function CatalogExplorer() {
               aria-selected={category === "subagent"}
               onClick={() => handleSelectCategory("subagent")}
             >
-              <strong>Subagents</strong>
-              <span>Isolated specialists</span>
+              <strong>{t.catalog.tabs.subagentsTitle}</strong>
+              <span>{t.catalog.tabs.subagentsSub}</span>
             </button>
             <button
               type="button"
@@ -86,8 +92,8 @@ export function CatalogExplorer() {
               aria-selected={category === "runtime"}
               onClick={() => handleSelectCategory("runtime")}
             >
-              <strong>IDE Adapters</strong>
-              <span>28 native targets</span>
+              <strong>{t.catalog.tabs.adaptersTitle}</strong>
+              <span>{t.catalog.tabs.adaptersSub}</span>
             </button>
           </div>
 
@@ -130,7 +136,7 @@ export function CatalogExplorer() {
                 role="button"
                 className="btn-motif"
               >
-                Submit a new Skill
+                {t.catalog.submitSkillBtn}
               </a>
             </div>
           </aside>

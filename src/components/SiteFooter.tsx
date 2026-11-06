@@ -1,10 +1,16 @@
+"use client";
+
+import { useLanguage } from "@/i18n/LanguageContext";
+
 export function SiteFooter() {
+  const { t } = useLanguage();
+
   return (
     <footer className="site-footer">
       <div className="frame">
         <div
           className="footer-construct"
-          aria-label="SKILLOPS architectural block wordmark"
+          aria-label={t.footer.wordmarkAria}
         >
           <div
             className="footer-block footer-block--accent reveal-item"
@@ -58,7 +64,8 @@ export function SiteFooter() {
 
         <div className="footer-bottom">
           <p className="footer-credits">
-            © {new Date().getFullYear()} SkillOps · MIT Licensed · Built by{" "}
+            © {new Date().getFullYear()} SkillOps · {t.footer.license} ·{" "}
+            {t.footer.builtBy}{" "}
             <a
               href="https://github.com/OdevMatheus"
               target="_blank"
@@ -69,7 +76,7 @@ export function SiteFooter() {
             </a>
           </p>
 
-          <nav className="footer-socials" aria-label="Social media links">
+          <nav className="footer-socials" aria-label={t.footer.socialsAria}>
             <a
               href="https://github.com/OdevMatheus"
               target="_blank"

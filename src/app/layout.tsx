@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque } from "next/font/google";
+import { LanguageProvider } from "@/i18n/LanguageContext";
 import "./globals.css";
 
 const bricolage = Bricolage_Grotesque({
@@ -59,7 +60,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={bricolage.variable} suppressHydrationWarning>
-      <body>{children}</body>
+      <body>
+        <LanguageProvider>{children}</LanguageProvider>
+      </body>
     </html>
   );
 }

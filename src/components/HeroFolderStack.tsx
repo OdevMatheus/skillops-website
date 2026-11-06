@@ -1,56 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useLanguage } from "@/i18n/LanguageContext";
+import type { AboutTabTranslation } from "@/i18n/translations";
 
-type AboutTabId = "overview" | "modules" | "sync";
-
-interface AboutTab {
-  id: AboutTabId;
-  label: string;
-  surface: "white" | "lime";
-  panelTitle: string;
-  panelDesc: string;
-  diagram: string;
-}
-
-const ABOUT_TABS: AboutTab[] = [
-  {
-    id: "overview",
-    label: "1 Manifest -> 28 Tools",
-    surface: "white",
-    panelTitle: "One canonical source of truth for every coding agent.",
-    panelDesc:
-      "Every AI assistant demands its own folder layout and YAML frontmatter. SkillOps compiles a single Markdown manifest into the native file structure each tool expects.",
-    diagram: `catalog/skills/mcp-architect/SKILL.md
-  |-- .cursor/rules/skillops-mcp-architect.mdc
-  |-- .claude/skills/mcp-architect/SKILL.md
-  |-- .github/instructions/skillops-mcp-architect.instructions.md
-  |-- .agent/skills/mcp-architect/SKILL.md
-  +-- +24 native IDE & CLI targets`
-  },
-  {
-    id: "modules",
-    label: "Skills & Subagents",
-    surface: "lime",
-    panelTitle: "Reusable playbooks and isolated specialist personas.",
-    panelDesc:
-      "Skills load procedural workflows progressively (<= 60 tokens at idle). Subagents run in isolated context windows with dedicated system prompts and read-only tool allowlists.",
-    diagram: `SKILL.md     -> Procedural workflow + L3 scripts (0 idle tokens)
-SUBAGENT.md  -> Isolated specialist + restricted tool allowlist`
-  },
-  {
-    id: "sync",
-    label: "100% Local & Safe",
-    surface: "white",
-    panelTitle: "Zero API keys. Deterministic SHA-256 drift protection.",
-    panelDesc:
-      "SkillOps runs locally via npx with zero cloud dependencies. Every installed file is hash-tracked in .skillops-lock.json so manual local edits are never overwritten.",
-    diagram: `$ npx skillops-cli@latest add
-  + CREATED   New native rule or agent file written
-  = KEPT      Unchanged file already up to date
-  ! CONFLICT  Local edit detected and safely preserved`
-  }
-];
+type AboutTabId = AboutTabTranslation["id"];
 
 function easeOutExpo(t: number): number {
   return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
@@ -60,9 +14,10 @@ export function HeroFolderStack() {
   const [activeTabId, setActiveTabId] = useState<AboutTabId>("overview");
   const heroRef = useRef<HTMLElement | null>(null);
   const aboutRef = useRef<HTMLElement | null>(null);
+  const { t } = useLanguage();
 
   const activeTab =
-    ABOUT_TABS.find((t) => t.id === activeTabId) || ABOUT_TABS[0];
+    t.about.tabs.find((tab) => tab.id === activeTabId) || t.about.tabs[0];
 
   const [scrollCueHidden, setScrollCueHidden] = useState(false);
 
@@ -148,23 +103,23 @@ export function HeroFolderStack() {
           <div className="hero__splash">
             <div className="hero__center">
               <h1 id="hero-heading" className="hero__title hero-load-1">
-                One skills library.
+                {t.hero.titleLine1}
                 <br />
-                Every coding agent.
+                {t.hero.titleLine2}
               </h1>
-              <p className="hero__sub hero-load-2">
-                Curated open-source Skills and Subagents, imported directly into your coding agent with a single command.
-              </p>
+              <p className="hero__sub hero-load-2">{t.hero.sub}</p>
             </div>
 
             <a
               href="#about"
               onClick={handleScrollToAbout}
               className={`hero__scroll-cue${scrollCueHidden ? " is-hidden" : ""}`}
-              aria-label="Scroll down to learn what SkillOps is"
+              aria-label={t.hero.scrollCueAria}
             >
               <span className="hero__scroll-inner hero-load-3">
-                <span className="hero__scroll-label">What is SkillOps</span>
+                <span className="hero__scroll-label">
+                  {t.hero.scrollCueLabel}
+                </span>
                 <span className="hero__scroll-arrow" aria-hidden="true">
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <path
@@ -191,18 +146,24 @@ export function HeroFolderStack() {
         <div className="frame about-section__grid">
           <div className="about-section__copy">
             <h2 id="about-heading" className="about-section__title">
-              What is SkillOps?
+              {t.about.title}
             </h2>
             <p className="about-section__lead">
-              SkillOps is an open-source package manager for AI coding assistants. Instead of copying and rewriting prompt files across Cursor, Claude Code, GitHub Copilot, and Antigravity, you maintain one library of <strong>Skills</strong> and <strong>Subagents</strong> and install them natively across <strong>28 AI tools</strong> with a single command.
+              {t.about.leadPart1}
+              <strong>{t.about.leadSkills}</strong>
+              {t.about.leadAnd}
+              <strong>{t.about.leadSubagents}</strong>
+              {t.about.leadPart2}
+              <strong>{t.about.leadTools}</strong>
+              {t.about.leadPart3}
             </p>
 
             <div
               className="about-tabs"
               role="tablist"
-              aria-label="What is SkillOps dimensions"
+              aria-label={t.about.tabsAria}
             >
-              {ABOUT_TABS.map((tab) => (
+              {t.about.tabs.map((tab) => (
                 <button
                   key={tab.id}
                   type="button"

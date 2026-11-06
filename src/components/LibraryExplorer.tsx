@@ -1,15 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 type ModuleKind = "skill" | "subagent";
 
 interface LibraryModule {
-  slug: string;
+  slug: "mcp-architect" | "context-scout";
   kind: ModuleKind;
   version: string;
   track: string;
-  summary: string;
   tags: string[];
   githubUrl: string;
 }
@@ -20,8 +20,6 @@ const LIBRARY_MODULES: LibraryModule[] = [
     kind: "skill",
     version: "v1.0.0",
     track: "ai-engineering",
-    summary:
-      "Design, implement, and audit Model Context Protocol (MCP) servers and FastMCP tools with strict JSON-RPC stdio hygiene and typed schemas.",
     tags: ["mcp", "fastmcp", "json-rpc"],
     githubUrl:
       "https://github.com/OdevMatheus/SkillOps/blob/master/catalog/ai-engineering/mcp-architect/SKILL.md"
@@ -31,8 +29,6 @@ const LIBRARY_MODULES: LibraryModule[] = [
     kind: "subagent",
     version: "v1.0.0",
     track: "exploration",
-    summary:
-      "Read-only codebase cartographer running in an isolated context window to map entrypoints, call graphs, and exact file line ranges.",
     tags: ["read-only", "token-economy", "cartography"],
     githubUrl:
       "https://github.com/OdevMatheus/SkillOps/blob/master/catalog/subagents/context-scout/SUBAGENT.md"
@@ -42,6 +38,7 @@ const LIBRARY_MODULES: LibraryModule[] = [
 export function LibraryExplorer() {
   const [activeKind, setActiveKind] = useState<ModuleKind>("skill");
   const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
+  const { t } = useLanguage();
 
   const visibleModules = LIBRARY_MODULES.filter((m) => m.kind === activeKind);
 
@@ -62,29 +59,26 @@ export function LibraryExplorer() {
       <div className="frame library-clean__container">
         <header className="library-clean__header">
           <div className="library-clean__contribute">
-            <span>Want to contribute a new Skill or Agent to the library?</span>
+            <span>{t.library.contributePrompt}</span>
             <a
               href="https://github.com/OdevMatheus/SkillOps/blob/master/CONTRIBUTING.md"
               target="_blank"
               rel="noopener noreferrer"
               className="library-clean__contribute-link"
             >
-              Open a Pull Request ↗
+              {t.library.contributeLink}
             </a>
           </div>
 
           <h1 id="library-heading" className="library-clean__title">
-            Library.
+            {t.library.title}
           </h1>
-          <p className="library-clean__sub">
-            Official open-source modules ready to install into any of the 28
-            supported AI coding agents.
-          </p>
+          <p className="library-clean__sub">{t.library.sub}</p>
 
           <div
             className="library-switch"
             role="tablist"
-            aria-label="Choose Skills or Agents"
+            aria-label={t.library.switchAria}
           >
             <button
               type="button"
@@ -93,7 +87,7 @@ export function LibraryExplorer() {
               className="library-switch__btn"
               onClick={() => setActiveKind("skill")}
             >
-              <span>Skills</span>
+              <span>{t.library.skillsTab}</span>
               <span className="library-switch__count">1</span>
             </button>
             <button
@@ -103,7 +97,7 @@ export function LibraryExplorer() {
               className="library-switch__btn"
               onClick={() => setActiveKind("subagent")}
             >
-              <span>Agents</span>
+              <span>{t.library.agentsTab}</span>
               <span className="library-switch__count">1</span>
             </button>
           </div>
@@ -113,6 +107,10 @@ export function LibraryExplorer() {
           {visibleModules.map((mod) => {
             const cmd = `npx skillops-cli@latest add ${mod.slug}`;
             const isCopied = copiedSlug === mod.slug;
+            const summary =
+              mod.slug === "mcp-architect"
+                ? t.library.summaries.mcpArchitect
+                : t.library.summaries.contextScout;
 
             return (
               <article
@@ -124,7 +122,9 @@ export function LibraryExplorer() {
                 <div className="library-clean-card__top">
                   <div className="library-clean-card__identity">
                     <span className="library-clean-card__badge">
-                      {mod.kind === "skill" ? "SKILL" : "AGENT"}
+                      {mod.kind === "skill"
+                        ? t.library.badgeSkill
+                        : t.library.badgeAgent}
                     </span>
                     <h2 className="library-clean-card__name">{mod.slug}</h2>
                   </div>
@@ -134,7 +134,7 @@ export function LibraryExplorer() {
                   </span>
                 </div>
 
-                <p className="library-clean-card__desc">{mod.summary}</p>
+                <p className="library-clean-card__desc">{summary}</p>
 
                 <div className="library-clean-card__cmd">
                   <code>{cmd}</code>
@@ -143,7 +143,7 @@ export function LibraryExplorer() {
                     className="library-clean-card__copy"
                     onClick={() => handleCopy(cmd, mod.slug)}
                   >
-                    {isCopied ? "Copied ✔" : "Copy"}
+                    {isCopied ? t.library.copied : t.library.copy}
                   </button>
                 </div>
 
@@ -162,7 +162,7 @@ export function LibraryExplorer() {
                     rel="noopener noreferrer"
                     className="library-clean-card__link"
                   >
-                    View manifest on GitHub ↗
+                    {t.library.viewManifest}
                   </a>
                 </div>
               </article>

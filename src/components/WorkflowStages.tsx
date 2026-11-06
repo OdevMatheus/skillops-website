@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const COMMAND_TEXT = "npx skillops-cli@latest add";
 
@@ -20,13 +21,6 @@ const STEP1_ROWS = [
   { id: "gemini", desc: "Google Gemini CLI (.gemini/skills)" }
 ];
 
-const STEP2_ROWS = [
-  { id: "mcp-architect", kind: "SKILL", desc: "Design & validate MCP servers" },
-  { id: "context-scout", kind: "AGENT", desc: "Read-only codebase explorer" },
-  { id: "ast-blast-radius", kind: "SKILL", desc: "Call-graph impact analyzer" },
-  { id: "security-sast-gate", kind: "SKILL", desc: "OWASP static security gate" }
-];
-
 const STEP3_FILES = [
   { target: "cursor", path: ".cursor/rules/skillops-mcp-architect.mdc" },
   { target: "claude", path: ".claude/skills/mcp-architect/SKILL.md" },
@@ -37,10 +31,34 @@ const STEP3_FILES = [
 export function WorkflowStages() {
   const [tick, setTick] = useState(0);
   const sectionRef = useRef<HTMLElement | null>(null);
+  const { t } = useLanguage();
+
+  const step2Rows = [
+    {
+      id: "mcp-architect",
+      kind: "SKILL",
+      desc: t.workflow.step2Descriptions.mcpArchitect
+    },
+    {
+      id: "context-scout",
+      kind: "AGENT",
+      desc: t.workflow.step2Descriptions.contextScout
+    },
+    {
+      id: "ast-blast-radius",
+      kind: "SKILL",
+      desc: t.workflow.step2Descriptions.astBlastRadius
+    },
+    {
+      id: "security-sast-gate",
+      kind: "SKILL",
+      desc: t.workflow.step2Descriptions.securitySastGate
+    }
+  ];
 
   useEffect(() => {
     const id = window.setInterval(() => {
-      setTick((t) => (t + 1) % TOTAL_TICKS);
+      setTick((prev) => (prev + 1) % TOTAL_TICKS);
     }, TICK_MS);
     return () => window.clearInterval(id);
   }, []);
@@ -134,17 +152,19 @@ export function WorkflowStages() {
       <div className="frame cli-stage__container">
         <div className="cli-stage__header">
           <h2 id="cli-stage-heading" className="cli-stage__title">
-            Every skill. Every agent. One command.
+            {t.workflow.title}
           </h2>
           <p className="cli-stage__sub">
-            Run <code>npx skillops-cli@latest add</code> in your repository. Pick your AI coding agents, select the Skills and Subagents you need, and SkillOps writes every native file automatically.
+            {t.workflow.subBeforeCmd}
+            <code>npx skillops-cli@latest add</code>
+            {t.workflow.subAfterCmd}
           </p>
         </div>
 
         <div
           className="tui-window"
           data-ui
-          aria-label="Animated preview of npx skillops-cli@latest add"
+          aria-label={t.workflow.tuiAria}
         >
           <div className="tui-window__bar">
             <span className="tui-window__dots" aria-hidden="true">
@@ -155,12 +175,12 @@ export function WorkflowStages() {
             <span className="tui-window__title">skillops-cli — zsh</span>
             <span className="tui-window__status">
               {isTypingPhase
-                ? " launching..."
+                ? t.workflow.statusLaunching
                 : isStep1
-                  ? "step 1/2"
+                  ? t.workflow.statusStep1
                   : isStep2
-                    ? "step 2/2"
-                    : "✔ installed"}
+                    ? t.workflow.statusStep2
+                    : t.workflow.statusInstalled}
             </span>
           </div>
 
@@ -179,15 +199,15 @@ export function WorkflowStages() {
               <div className="tui-screen">
                 <div className="tui-banner-line">
                   <span className="tui-pill tui-pill--accent">
-                    ◆ SkillOps — Step 1/2: Select Your AI IDE / Agent
+                    {t.workflow.step1Banner}
                   </span>
                 </div>
                 <div className="tui-tree-line">
                   <span className="tui-branch">├─</span>
                   <span className="tui-pill tui-pill--surface">
-                    [ ◆ AI IDEs &amp; Agents (28) ]
+                    {t.workflow.step1Group}
                   </span>
-                  <span className="tui-muted">↑/↓ move · Space select</span>
+                  <span className="tui-muted">{t.workflow.step1Hint}</span>
                 </div>
 
                 <div className="tui-list">
@@ -211,7 +231,9 @@ export function WorkflowStages() {
 
                 <div className="tui-tree-footer">
                   <span className="tui-branch">╰─</span>
-                  <span className="tui-count">{step1Count} selected</span>
+                  <span className="tui-count">
+                    {step1Count} {t.workflow.selectedWord}
+                  </span>
                   <span className="tui-muted">—</span>
                   <span
                     className={
@@ -220,7 +242,7 @@ export function WorkflowStages() {
                         : "tui-pill tui-pill--surface"
                     }
                   >
-                    Enter to continue
+                    {t.workflow.enterToContinue}
                   </span>
                 </div>
               </div>
@@ -230,7 +252,9 @@ export function WorkflowStages() {
               <div className="tui-screen">
                 <div className="tui-completed-step">
                   <span className="tui-pill tui-pill--accent">✔</span>
-                  <span className="tui-muted">Step 1/2 · AI IDEs</span>
+                  <span className="tui-muted">
+                    {t.workflow.step1CompletedLabel}
+                  </span>
                   <strong className="tui-highlight">
                     cursor, claude, copilot
                   </strong>
@@ -238,12 +262,12 @@ export function WorkflowStages() {
 
                 <div className="tui-banner-line">
                   <span className="tui-pill tui-pill--accent">
-                    ◆ SkillOps — Step 2/2: Select Skills &amp; Subagents
+                    {t.workflow.step2Banner}
                   </span>
                 </div>
 
                 <div className="tui-list">
-                  {STEP2_ROWS.map((row, idx) => {
+                  {step2Rows.map((row, idx) => {
                     const checked = step2Checked[idx];
                     const focused = step2Cursor === idx;
                     return (
@@ -264,7 +288,7 @@ export function WorkflowStages() {
                 <div className="tui-tree-footer">
                   <span className="tui-branch">╰─</span>
                   <span className="tui-count">
-                    {step2Count} selected (1 Skill, 1 Agent)
+                    {step2Count} {t.workflow.step2SelectedSummary}
                   </span>
                   <span className="tui-muted">—</span>
                   <span
@@ -274,7 +298,7 @@ export function WorkflowStages() {
                         : "tui-pill tui-pill--surface"
                     }
                   >
-                    Enter to import
+                    {t.workflow.enterToImport}
                   </span>
                 </div>
               </div>
@@ -284,15 +308,17 @@ export function WorkflowStages() {
               <div className="tui-screen">
                 <div className="tui-completed-step">
                   <span className="tui-pill tui-pill--accent">✔</span>
-                  <span className="tui-muted">Configured</span>
+                  <span className="tui-muted">
+                    {t.workflow.step3ConfiguredLabel}
+                  </span>
                   <strong className="tui-highlight">
-                    cursor, claude, copilot · 2 modules
+                    {t.workflow.step3ConfiguredSummary}
                   </strong>
                 </div>
 
                 <div className="tui-banner-line">
                   <span className="tui-pill tui-pill--accent">
-                    ◆ SkillOps — Skills &amp; Subagents Installed
+                    {t.workflow.step3Banner}
                   </span>
                   <strong className="tui-pass">✔ PASS</strong>
                 </div>
@@ -314,9 +340,9 @@ export function WorkflowStages() {
 
                 <div className="tui-tree-footer">
                   <span className="tui-branch">╰─</span>
-                  <span className="tui-count">Done in 38ms</span>
+                  <span className="tui-count">{t.workflow.step3Done}</span>
                   <span className="tui-muted">
-                    · .skillops-lock.json updated
+                    {t.workflow.step3LockUpdated}
                   </span>
                 </div>
               </div>
